@@ -1,10 +1,10 @@
-# tinysurveylicious - a tiny web survey application using the mojolicious framework
+# tinysurveylicious - a tiny web survey application using the Mojolicious framework
 
 tinysurveylicious is a tiny web survey applications written in perl, using the
-Mojolicious framework. It's built to be very easy to set up and run. It
-requires a few perl libraries (which can be auto-installed by using the
-Makefile) and no external daemons (using SQLite for permanent storage). It can
-run standalone, or behind a web server proxy.
+[Mojolicious](http://mojolicious.org/) framework. It's built to be very easy to
+set up and run. It requires a few perl libraries (which can be auto-installed
+by using the Makefile) and no external daemons (using SQLite for permanent
+storage). It can run standalone, or behind a web server proxy.
 
 The configuration format is JSON extended to allow comments. It supports both
 unathenticated and authenticated use.
