@@ -1,0 +1,69 @@
+%# vim: set ft=json :
+%# This file is simply JSON with support for comments. %# starts a comment.
+{
+    %# Various text displayed in the application
+    "text":{
+        %# Displayed after successfully filling out the survey
+        "done":"Thanks for filling out this example survey.",
+        %# Message displayed when some fields have not been filled out
+        "error":"Some required fields have not been filled out. Please fill them out and then try again.",
+        %# The header displayed, usually the name of the survey
+        "header":"tinysurveylicious example survey",
+        %# A descriptive text, displayed above the form
+        "description":"",
+        %# The <title> of the page
+        "title":"Survey",
+        %# The label for the submit button
+        "submitButton":"Submit",
+        %# Text for select and select-custom boxes
+        "select":{
+            %# The text displayed at the top of a <select>-box
+            "chooseText":"- Choose -",
+            %# The text that is displayed for the select-custom option that allows custom input
+            "customText":"- Other (custom) -"
+        },
+        %# Text for the access token support
+        "access":{
+            %# The header when access is denied
+            "deniedHeader":"Access denied",
+            %# The textual description when access is denied
+            "deniedDescription":"Invalid or expired token"
+        }
+    },
+    %# Configuration of the webapp itself
+    "config":{
+        %# Set to true to require authentication tokens
+        "requireAuthToken":false,
+        %# Set to true to allow HTML in the descriptive text
+        "descriptionHTMLAllowed":true
+    },
+    %# Definitions of the various fields in the survey
+    "fields": [
+        {
+            "shortname":"surveyrating",
+            "name":"What do you think about this survey?",
+            "choices":["Excellent","Good","Okay","Bad","Very bad"],
+            "required":1,
+            "type":"radio"
+        },
+        {
+            "shortname":"hearabout",
+            "name":"How did you hear about tinysurveylicious?",
+            "type":"select-custom",
+            "choices":[
+                "Search engine",
+                "Github",
+                "Package repository"
+            ]
+        },
+        {
+            "shortname":"surveythoughts",
+            "name":"Do you have any comments about this survey?",
+            "required":1,
+            "type":"textarea"
+        }
+    ],
+    %# The config file revision. tinysurveylicious will tell you if this needs
+    %# changing.
+    "crevision":"1"
+}

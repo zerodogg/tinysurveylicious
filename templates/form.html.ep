@@ -1,0 +1,95 @@
+<%
+# tinysurveylicious - a tiny web survey application
+# Copyright (C) Eskild Hustvedt 2016
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+%><h2><%= $textcontent->{header} %></h2>
+<%if(defined $message && length $message) {%>
+%= $message
+<br />
+<br />
+<%}%>
+<%if(defined $textcontent->{description} && length $textcontent->{description}) {
+    if($config->{descriptionHTMLAllowed}) { %>
+%== $textcontent->{description}
+<%  } else { %>
+%= $textcontent->{description}
+<%  }%>
+<br />
+<br />
+<%}%>
+%= form_for '/data' => (method => 'POST') => ( class => '') => begin
+<%if(defined $token) { %>
+<input type="hidden" name="token" value="<%= $token %>" />
+<% } %>
+<%
+foreach my $entry (@{$form})
+{
+    my $class = 'form-group';
+    my $extraClass = '';
+    if (my $err = validation->error($entry->{shortname})) {
+        $class .= ' has-error';
+    }
+    %>
+  <div class="<%= $class %>">
+  <label for="<%= $entry->{shortname}%>" class="control-label"><%== $entry->{name} %></label>
+<%
+  if ($entry->{type} eq 'textarea')
+  { %>
+    %= text_area $entry->{shortname}, class => 'form-control', rows => 10
+<% }
+   elsif($entry->{type} eq 'radio')
+   {
+   %><br /><%
+    foreach my $val (@{$entry->{choices}})
+    {
+   %>
+        <label class="radio-inline">
+            <%= radio_button $entry->{shortname} => $val %> <%= $val %>
+        </label>
+<% } %>
+<% }
+   elsif($entry->{type} eq 'select')
+   {%>
+        <%= select_field $entry->{shortname} => $entry->{choices} %>
+ <%}
+   elsif($entry->{type} eq 'select-custom')
+   {
+        my $val = $c->param($entry->{shortname}) // '';
+        my $isCustomDisabled = 1;
+        my @choices = @{$entry->{choices}};
+        unshift(@choices,[$textcontent->{select}->{customText} => '_custom_' ]);
+        unshift(@choices,[ $textcontent->{select}->{chooseText} => '' ]);
+        if($c->param($entry->{shortname}.'-custom') eq '_custom_' || $val eq '_custom_')
+        {
+            push(@choices,[$textcontent->{select}->{customText} => '_custom_', selected => 'selected' ]);
+            $c->param($entry->{shortname},'_custom_');
+            $isCustomDisabled = 0;
+            if($val eq '_custom_')
+            {
+                $val = '';
+            }
+        }
+        else
+        {
+        }%>
+        <div class="form-inline">
+            <%= select_field $entry->{shortname} => \@choices, class => 'form-control' %>
+            <input type="text" id="<%= $entry->{shortname} %>-custom" name="<%= $entry->{shortname} %>-custom" value="<%== $val %>" class="custom-text-input form-control" <%= $isCustomDisabled ? 'disabled' : '' %>/>
+        </div>
+<% } %>
+  </div>
+<% } %>
+  %= submit_button $textcontent->{submitButton}, class => 'btn btn-default'
+% end

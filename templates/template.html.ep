@@ -1,0 +1,59 @@
+<%
+# tinysurveylicious - a tiny web survey application
+# Copyright (C) Eskild Hustvedt 2016
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+%><!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title><%= $textcontent->{title} %></title>
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noindex, nofollow" />
+        <!--[if lte IE 8]>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.5/es5-shim.min.js"></script>
+        <![endif]-->
+		<style>
+		label.field-with-error { color: #dd7e5e }
+		input.field-with-error { background-color: #fd9e7e }
+		</style>
+    </head>
+    <body class="">
+        <main class="container">
+		<div class="row">
+			<div class="col-lg-8">
+<%
+if(defined $subpage)
+{
+%>
+%= include $subpage
+<%
+}
+else
+{%>
+            <h1><%= $title %></h1>
+            <div><%= $message %></div>
+<% }%>
+				</div>
+			</div>
+        </main>
+        <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+        <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.0/lodash.min.js"></script>
+        <script src="/tinysurveylicious.js"></script>
+    </body>
+</html>
+
